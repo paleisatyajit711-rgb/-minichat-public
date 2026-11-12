@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#075e54">
+  <title>MiniChat — Private conversations</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="/socket.io/socket.io.js" defer></script>
+  <script src="/app.js" defer></script>
+</head>
+<body>
+  <main class="shell">
+    <section id="authView" class="auth-card">
+      <div class="brand-mark">M</div>
+      <h1>MiniChat</h1>
+      <p class="muted">A simple place for private conversations.</p>
+      <div class="tabs">
+        <button id="loginTab" class="tab active" type="button">Log in</button>
+        <button id="signupTab" class="tab" type="button">Create account</button>
+      </div>
+      <form id="authForm">
+        <label>Email<input id="email" type="email" autocomplete="email" required placeholder="you@example.com"></label>
+        <label>Password<input id="password" type="password" autocomplete="current-password" minlength="8" required placeholder="At least 8 characters"></label>
+        <label id="usernameLabel" class="hidden">Username<input id="username" type="text" minlength="3" maxlength="24" autocomplete="username" placeholder="e.g. satyajit"></label>
+        <button class="primary full" id="authSubmit" type="submit">Log in</button>
+      </form>
+      <p id="authMessage" class="notice" role="status"></p>
+      <p class="tiny muted">Use a unique password. This is a demo chat service, not an end-to-end encrypted messenger.</p>
+    </section>
+
+    <section id="chatView" class="chat-app hidden">
+      <aside class="sidebar">
+        <header class="side-header">
+          <div><div class="brand-inline"><span class="brand-mark small">M</span><strong>MiniChat</strong></div><p id="myIdentity" class="muted small-text"></p></div>
+          <button id="logoutBtn" class="ghost" type="button">Log out</button>
+        </header>
+        <div class="search-wrap">
+          <label for="userSearch">Find a person</label>
+          <input id="userSearch" type="search" placeholder="Search username…">
+          <div id="userResults" class="user-results"></div>
+        </div>
+        <div class="side-note">Choose a username to start a private chat.</div>
+      </aside>
+      <section class="conversation">
+        <div id="emptyState" class="empty-state">
+          <div class="empty-icon">✉</div><h2>Your messages</h2>
+          <p>Search for a username on the left to start chatting.</p>
+        </div>
+        <div id="activeChat" class="active-chat hidden">
+          <header class="chat-header">
+            <div class="avatar" id="chatAvatar">?</div>
+            <div class="chat-person"><strong id="chatName">User</strong><span id="chatPresence" class="muted small-text">Offline</span></div>
+          </header>
+          <div id="messages" class="messages" aria-live="polite"></div>
+          <div id="typingLine" class="typing-line"></div>
+          <form id="messageForm" class="composer">
+            <label class="attach" title="Attach image">＋<input id="imageInput" type="file" accept="image/jpeg,image/png,image/webp,image/gif"></label>
+            <input id="messageInput" type="text" maxlength="4000" placeholder="Write a message…" autocomplete="off">
+            <button class="send" type="submit" aria-label="Send message">➤</button>
+          </form>
+          <p class="tiny composer-hint">Images up to 5 MB. Uploaded images use public URLs.</p>
+        </div>
+      </section>
+    </section>
+  </main>
+  <div id="toast" class="toast" role="status"></div>
+</body>
+</html>
